@@ -17,12 +17,27 @@ public class SphereGrowth : MonoBehaviour
         if (mySize > otherSize)
         {
             transform.localScale += Vector3.one * otherSize * growthAmount;
+
+            PlayerController player = GetComponent<PlayerController>();
+
+            if (player != null)
+            {
+                GameManager manager = FindObjectOfType<GameManager>();
+
+                if (manager != null)
+                {
+                    manager.AddScore(Mathf.RoundToInt(otherSize * 100));
+                }
+            }
+
             Destroy(collision.gameObject);
         }
         else if (otherSize > mySize && GetComponent<PlayerController>() != null)
         {
-            Debug.Log("PLAYER LOST!");
-            Destroy(gameObject);
+            GameManager manager = FindObjectOfType<GameManager>();
+
+            if (manager != null)
+                manager.PlayerLost();
         }
     }
 }

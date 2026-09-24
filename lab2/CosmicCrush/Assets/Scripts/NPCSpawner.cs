@@ -9,11 +9,17 @@ public class NPCSpawner : MonoBehaviour
     {
         for (int i = 0; i < numberOfNPCs; i++)
         {
-            Vector3 spawnPosition = new Vector3(
-                Random.Range(-8f, 8f),
-                1f,
-                Random.Range(-8f, 8f)
-            );
+            Vector3 spawnPosition;
+
+            do
+            {
+                spawnPosition = new Vector3(
+                    Random.Range(-8f, 8f),
+                    1f,
+                    Random.Range(-8f, 8f)
+                );
+            }
+            while (spawnPosition.magnitude < 3f);
 
             GameObject npc = Instantiate(
                 npcPrefab,

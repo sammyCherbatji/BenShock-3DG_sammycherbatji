@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
     public Text gameOverText;
 
     private int score = 0;
-    private bool gameOver = false;
 
     void Start()
     {
@@ -19,9 +18,6 @@ public class GameManager : MonoBehaviour
 
     public void AddScore(int amount)
     {
-        if (gameOver)
-            return;
-
         score += amount;
         UpdateScore();
     }
@@ -34,11 +30,6 @@ public class GameManager : MonoBehaviour
 
     public void PlayerLost()
     {
-        if (gameOver)
-            return;
-
-        gameOver = true;
-
         if (gameOverText != null)
         {
             gameOverText.text = "GAME OVER";
@@ -50,11 +41,6 @@ public class GameManager : MonoBehaviour
 
     public void PlayerWon()
     {
-        if (gameOver)
-            return;
-
-        gameOver = true;
-
         if (gameOverText != null)
         {
             gameOverText.text = "YOU WIN!";
