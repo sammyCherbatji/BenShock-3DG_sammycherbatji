@@ -14,9 +14,11 @@ GameObject:
   - component: {fileID: 7246136276469192755}
   - component: {fileID: 1427340342989159939}
   - component: {fileID: 6554962020017842519}
+  - component: {fileID: 8725983071798508460}
+  - component: {fileID: -7601999327666094705}
   m_Layer: 0
   m_Name: NPC
-  m_TagString: Untagged
+  m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -154,3 +156,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NPCController
   moveSpeed: 1.5
+--- !u!114 &8725983071798508460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167850257728598277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 731263121d5d84c13b050c8e622aa628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SphereGrowth
+  growthAmount: 0.15
+--- !u!114 &-7601999327666094705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167850257728598277}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ef4bf3b98cba4510a44ff8d24b91a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SphereColor

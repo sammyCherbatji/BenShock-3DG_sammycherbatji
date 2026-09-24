@@ -3,7 +3,6 @@ using UnityEngine;
 public class NPCSpawner : MonoBehaviour
 {
     public GameObject npcPrefab;
-
     public int numberOfNPCs = 15;
 
     void Start()
@@ -16,7 +15,15 @@ public class NPCSpawner : MonoBehaviour
                 Random.Range(-8f, 8f)
             );
 
-            Instantiate(npcPrefab, spawnPosition, Quaternion.identity);
+            GameObject npc = Instantiate(
+                npcPrefab,
+                spawnPosition,
+                Quaternion.identity
+            );
+
+            float size = Random.Range(0.5f, 1.6f);
+
+            npc.transform.localScale = new Vector3(size, size, size);
         }
     }
 }

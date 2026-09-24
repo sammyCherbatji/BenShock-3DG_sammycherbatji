@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public float moveSpeed = 5f;
+    public float massLoss = 0.01f;
 
     private Rigidbody rb;
 
@@ -30,6 +31,18 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movement = new Vector3(input.x, 0f, input.y);
 
-        rb.AddForce(movement * moveSpeed);
+        if (input != Vector2.zero)
+        {
+            rb.AddForce(movement * moveSpeed);
+
+            transform.localScale -= Vector3.one * massLoss;
+
+            float minimumSize = 0.3f;
+
+            if (transform.localScale.x < minimumSize)
+            {
+                transform.localScale = Vector3.one * minimumSize;
+            }
+        }
     }
 }
