@@ -4,8 +4,13 @@ using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    public int score = 0;
     public Text scoreText;
+    private int score = 0;
+
+    void Start()
+    {
+        UpdateScoreUI();
+    }
 
     public void AddScore(int points)
     {
@@ -19,10 +24,5 @@ public class ScoreManager : MonoBehaviour
         {
             scoreText.text = "Score: " + score;
         }
-    }
-
-    void Start()
-    {
-        UpdateScoreUI();
     }
 }

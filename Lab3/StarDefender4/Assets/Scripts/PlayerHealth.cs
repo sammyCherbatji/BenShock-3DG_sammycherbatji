@@ -1,11 +1,13 @@
 
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
     public int lives = 3;
     public float respawnInvulnerability = 2f;
+    public Text livesText;
 
     private bool isInvulnerable = false;
     private Renderer playerRenderer;
@@ -15,6 +17,8 @@ public class PlayerHealth : MonoBehaviour
     {
         startingPosition = transform.position;
         playerRenderer = GetComponent<Renderer>();
+
+        UpdateLivesUI();
     }
 
     public void LoseLife()
@@ -26,6 +30,8 @@ public class PlayerHealth : MonoBehaviour
 
         Debug.Log("Player lost a life. Lives remaining: " + lives);
 
+        UpdateLivesUI();
+
         if (lives <= 0)
         {
             Debug.Log("Game Over!");
@@ -34,6 +40,14 @@ public class PlayerHealth : MonoBehaviour
         }
 
         StartCoroutine(Respawn());
+    }
+
+    void UpdateLivesUI()
+    {
+        if (livesText != null)
+        {
+            livesText.text = "Lives: " + lives;
+        }
     }
 
     IEnumerator Respawn()
