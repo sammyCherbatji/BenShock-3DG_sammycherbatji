@@ -53,6 +53,8 @@ public class PlayerShooting : MonoBehaviour
             Vector3 spawnPosition =
                 transform.position + direction * 1.2f;
 
+            spawnPosition.y = transform.position.y;
+
             GameObject bullet = Instantiate(
                 projectilePrefab,
                 spawnPosition,
