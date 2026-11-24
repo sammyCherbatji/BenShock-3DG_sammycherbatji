@@ -4,6 +4,7 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     public int maxHealth = 3;
+    public int scoreValue = 100;
 
     private int currentHealth;
 
@@ -24,6 +25,11 @@ public class EnemyHealth : MonoBehaviour
 
     private void Die()
     {
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.AddScore(scoreValue);
+        }
+
         Destroy(gameObject);
     }
 }
