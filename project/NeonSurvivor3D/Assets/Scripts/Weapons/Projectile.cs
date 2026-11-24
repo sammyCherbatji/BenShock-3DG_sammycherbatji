@@ -8,6 +8,8 @@ public class Projectile : MonoBehaviour
     public float lifetime = 3f;
     public int damage = 1;
 
+    public bool isBossProjectile = false;
+
     private Vector3 direction;
     private Rigidbody rb;
 
@@ -37,20 +39,35 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (isBossProjectile)
+        {
+            PlayerHealth playerHealth =
+                other.GetComponentInParent<PlayerHealth>();
+
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(damage);
+                Destroy(gameObject);
+            }
+
+            return;
+        }
+
         EnemyHealth enemy =
             other.GetComponentInParent<EnemyHealth>();
 
+        BossHealth boss =
+            other.GetComponentInParent<BossHealth>();
+
         if (enemy != null)
         {
-            Debug.Log("ENEMY HIT: " + other.name);
-
             enemy.TakeDamage(damage);
-
             Destroy(gameObject);
         }
-        else
+        else if (boss != null)
         {
-            Debug.Log("Projectile hit something else: " + other.name);
+            boss.TakeDamage(damage);
+            Destroy(gameObject);
         }
     }
 }
