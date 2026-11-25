@@ -1,27 +1,26 @@
-using UnityEngine.UI;
+
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerHealth : MonoBehaviour
 {
-    [Header("Health Settings")]
     public int maxHealth = 100;
     public int currentHealth;
-
-    [Header("Lives")]
     public int lives = 3;
-
-    [Header("Damage Settings")]
     public int damageAmount = 20;
     public float damageCooldown = 1f;
 
-    [Header("UI")]
     public TMP_Text healthText;
     public TMP_Text livesText;
-
     public Slider healthSlider;
 
+    [Header("Shield Settings")]
+    public float shieldDuration = 8f;
+
     private float nextDamageTime;
+    private bool shieldActive = false;
 
     private void Start()
     {
@@ -39,6 +38,12 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (shieldActive)
+        {
+            Debug.Log("SHIELD BLOCKED DAMAGE!");
+            return;
+        }
+
         if (Time.time < nextDamageTime)
             return;
 
@@ -47,11 +52,36 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
 
         if (currentHealth <= 0)
-        {
             LoseLife();
-        }
 
         UpdateUI();
+    }
+
+    public void RestoreHealth(int amount)
+    {
+        currentHealth = Mathf.Min(currentHealth + amount, maxHealth);
+        UpdateUI();
+
+        Debug.Log("Player restored health: " + currentHealth);
+    }
+
+    public void ActivateShield()
+    {
+        StopCoroutine(nameof(ShieldRoutine));
+        StartCoroutine(ShieldRoutine());
+    }
+
+    private IEnumerator ShieldRoutine()
+    {
+        shieldActive = true;
+
+        Debug.Log("SHIELD ACTIVATED!");
+
+        yield return new WaitForSeconds(shieldDuration);
+
+        shieldActive = false;
+
+        Debug.Log("SHIELD EXPIRED!");
     }
 
     private void LoseLife()

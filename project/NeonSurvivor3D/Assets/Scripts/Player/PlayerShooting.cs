@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class PlayerShooting : MonoBehaviour
 {
@@ -9,10 +10,15 @@ public class PlayerShooting : MonoBehaviour
     public float fireRate = 0.2f;
     public float projectileSpeed = 25f;
 
+    [Header("Rapid Fire")]
+    public float rapidFireRate = 0.08f;
+    public float rapidFireDuration = 8f;
+
     [Header("References")]
     public Camera mainCamera;
 
     private float nextFireTime;
+    private bool rapidFireActive = false;
 
     private void Update()
     {
@@ -25,6 +31,27 @@ public class PlayerShooting : MonoBehaviour
             Shoot();
             nextFireTime = Time.time + fireRate;
         }
+    }
+
+    public void ActivateRapidFire()
+    {
+        StopAllCoroutines();
+        StartCoroutine(RapidFireRoutine());
+    }
+
+    private IEnumerator RapidFireRoutine()
+    {
+        rapidFireActive = true;
+        fireRate = rapidFireRate;
+
+        Debug.Log("RAPID FIRE ACTIVATED!");
+
+        yield return new WaitForSeconds(rapidFireDuration);
+
+        fireRate = 0.2f;
+        rapidFireActive = false;
+
+        Debug.Log("RAPID FIRE ENDED!");
     }
 
     private void Shoot()
