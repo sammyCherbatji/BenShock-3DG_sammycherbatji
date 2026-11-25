@@ -5,9 +5,11 @@ using UnityEngine.UI;
 public class BossHealth : MonoBehaviour
 {
     public int maxHealth = 100;
-    private int currentHealth;
-
     public Slider healthSlider;
+    public GameObject victoryPanel;
+
+    private int currentHealth;
+    private bool defeated = false;
 
     private void Start()
     {
@@ -19,30 +21,35 @@ public class BossHealth : MonoBehaviour
             healthSlider.value = currentHealth;
         }
 
-        Debug.Log("Boss spawned with " + currentHealth + " health.");
+        if (victoryPanel != null)
+            victoryPanel.SetActive(false);
     }
 
     public void TakeDamage(int damage)
     {
+        if (defeated) return;
+
         currentHealth -= damage;
         currentHealth = Mathf.Max(currentHealth, 0);
 
         if (healthSlider != null)
-        {
             healthSlider.value = currentHealth;
-        }
-
-        Debug.Log("Boss Health: " + currentHealth);
 
         if (currentHealth <= 0)
-        {
-            Die();
-        }
+            DefeatBoss();
     }
 
-    private void Die()
+    private void DefeatBoss()
     {
-        Debug.Log("BOSS DEFEATED!");
+        defeated = true;
+
+        if (victoryPanel != null)
+            victoryPanel.SetActive(true);
+
+        Time.timeScale = 0f;
+
+        Debug.Log("VICTORY! GAME PAUSED!");
+
         Destroy(gameObject);
     }
 }
