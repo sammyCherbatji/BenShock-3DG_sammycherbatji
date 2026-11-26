@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
@@ -16,6 +15,9 @@ public class PlayerShooting : MonoBehaviour
 
     [Header("References")]
     public Camera mainCamera;
+
+    [Header("Visual Effects")]
+    public PlayerVisualEffects visualEffects;
 
     private float nextFireTime;
     private bool rapidFireActive = false;
@@ -56,6 +58,9 @@ public class PlayerShooting : MonoBehaviour
 
     private void Shoot()
     {
+        if (mainCamera == null || projectilePrefab == null)
+            return;
+
         Ray ray = mainCamera.ScreenPointToRay(
             Mouse.current.position.ReadValue()
         );
@@ -76,6 +81,10 @@ public class PlayerShooting : MonoBehaviour
                 return;
 
             direction.Normalize();
+            if (visualEffects != null)
+            {
+                visualEffects.AimAtDirection(direction);
+            }
 
             Vector3 spawnPosition =
                 transform.position + direction * 1.2f;
@@ -91,8 +100,16 @@ public class PlayerShooting : MonoBehaviour
             Projectile projectile =
                 bullet.GetComponent<Projectile>();
 
-            projectile.speed = projectileSpeed;
-            projectile.SetDirection(direction);
+            if (projectile != null)
+            {
+                projectile.speed = projectileSpeed;
+                projectile.SetDirection(direction);
+            }
+
+            if (visualEffects != null)
+            {
+                visualEffects.PlayShootingRecoil();
+            }
         }
     }
 }
